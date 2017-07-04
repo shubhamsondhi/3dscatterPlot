@@ -4,3 +4,7 @@ This Scatter plot represent the farm fild type. where you can see layers based o
 Also you can change the color and symboles too in this plotly.
 
 If you need any information about this message me here.
+
+https://jsfiddle.net/shubhamsondhi/rb6tgm84/1/
+
+<script async src="//jsfiddle.net/shubhamsondhi/rb6tgm84/1/embed/"></script>
