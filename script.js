@@ -4,7 +4,7 @@
         return new CropPortalLibrary.init();
     }
     CropPortalLibrary.prototype = {
-        
+
         /**
          * We need the data to show the example so I Created this random function which is creating a lot of random data.
          * however this random data is even not random I get to know because it will give the same stracture every time you will run it.
@@ -43,14 +43,7 @@
             return Math.random() * (max - min) + min
 
         },
-
-        /**
-         * We are using callback fucntion here which will run after getting all the parameters required to draw the 3d Scatter Plot Graph.
-         * It will run the call back funtion with parameter which are required.
-         * By this way I am tring to make sure that create plotly will run only after all the data and required parameters are exsit.
-         */
-        create3dScatterPlot: function (selector, result, type, callback) {
-
+        mapData: function (result) {
             var series = {
                 x: [],
                 y: [],
@@ -76,6 +69,17 @@
                 series.text.push('Longitude: ' + result[i].x + '</br></br>Latitude: ' + result[i].y + '</br>Datum: ' + result[i].datum);
                 series.zeroelevation.push(2);
             }
+            return series
+        },
+
+        /**
+         * We are using callback fucntion here which will run after getting all the parameters required to draw the 3d Scatter Plot Graph.
+         * It will run the call back funtion with parameter which are required.
+         * By this way I am tring to make sure that create plotly will run only after all the data and required parameters are exsit.
+         */
+        create3dScatterPlot: function (selector, result, type, callback) {
+
+            var series = this.mapData(result);
 
             /**
             * Here I am checking the elevation data which our project need to check.
@@ -96,45 +100,7 @@
             var figure = {
                 frames: [],
                 layout: this.resetLayout(),
-                data: [
-
-                    {
-                        hoverinfo: 'text',
-                        autobinx: true,
-                        name: type,
-                        text: series.text,
-                        marker: {
-                            symbol: 'square',
-                            color: series.color,
-                            colorbar: {
-                                thicknessmode: 'pixels',
-                                thickness: 10,
-                                len: 400,
-                                lenmode: 'pixels',
-                                yanchor: 'center',
-                                xpad: 0,
-                                y: 80,
-                                outlinecolor: 'pink',
-                                ticks: 'inside'
-
-                            },
-                            colorscale:
-                            [['0', 'red'],
-                            ['0.5', 'yellow'],
-                            ['1', 'green']],
-                            sizemode: 'diameter',
-                            size: 4
-                        },
-                        type: 'scatter3d',
-                        x: series.x,
-                        y: series.y,
-                        z: series.zeroelevation,
-                        autobiny: true,
-                        mode: 'markers',
-                        _Elevation: series.elevation,
-                        _zero: series.zeroelevation
-                    }
-                ],
+                data: this.plotlyData(series,type),
                 selector: document.getElementById(selector)
             };
             if (callback) {
@@ -142,6 +108,48 @@
                 callback(figure, figure1);
             }
 
+        },
+
+        plotlyData: function (series, type) {
+            var data = [
+                {
+                    hoverinfo: 'text',
+                    autobinx: true,
+                    name: type,
+                    text: series.text,
+                    marker: {
+                        symbol: 'square',
+                        color: series.color,
+                        colorbar: {
+                            thicknessmode: 'pixels',
+                            thickness: 10,
+                            len: 400,
+                            lenmode: 'pixels',
+                            yanchor: 'center',
+                            xpad: 0,
+                            y: 80,
+                            outlinecolor: 'pink',
+                            ticks: 'inside'
+
+                        },
+                        colorscale:
+                        [['0', 'red'],
+                        ['0.5', 'yellow'],
+                        ['1', 'green']],
+                        sizemode: 'diameter',
+                        size: 4
+                    },
+                    type: 'scatter3d',
+                    x: series.x,
+                    y: series.y,
+                    z: series.zeroelevation,
+                    autobiny: true,
+                    mode: 'markers',
+                    _Elevation: series.elevation,
+                    _zero: series.zeroelevation
+                }
+            ]
+            return data;
         },
 
         /**
@@ -224,25 +232,7 @@
          * This data then I will embed in existing drawn graph. It save time and memory.
          */
         redraw: function (result, callback) {
-            var series = {
-                x: [],
-                y: [],
-                z: [],
-                elevation: [],
-                color: [],
-                text: [],
-                zeroelevation: [],
-            };
-            for (var i in result) {
-                series.x.push(result[i].x);
-                series.y.push(result[i].y);
-                if (result[i].elevation == null) { } else {
-                    series.elevation[i] = result[i].elevation;
-                }
-                series.color.push(result[i].datum);
-                series.text.push('Longitude: ' + result[i].x + '</br>Latitude: ' + result[i].y + '</br>Datum: ' + result[i].datum);
-                series.zeroelevation.push(2);
-            }
+            var series = this.mapData(result);
             if (series.elevation == null || series.elevation < (series.x.length) / 2) { series.elevation = []; $("#elevation").prop('disabled', true); }
             var selector = document.getElementById("chart");
             selector.data[0].x = series.x;
