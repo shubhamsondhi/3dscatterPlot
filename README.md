@@ -1,10 +1,36 @@
-# 3dscatterPlot
-I am using plot.ly to draw the 3d scatter plot and I have implemented most of the tools to modifie plotly design. 
-This Scatter plot represent the farm fild type. where you can see layers based on different yield data as well as elevation of that field.
-Also you can change the color and symboles too in this plotly.
+# 3d Scatter Plot with modified Tools
 
-If you need more information about this project you can message me here.
+I have used the existing 3d scatter plot and added more tools. These tools provide you more flexibility. 
+
+## Getting Started
+
+TO deploy it, after cloneing this project just run the index.html file. Because it is based on javascript only. However some of the libraries are being called online so internet is required.
+
+### Prerequisites
+
+Browser must support WebGl and internet is required.
+
+
+
+
+
+
+## Built With
+
+* [Plotly](https://cdn.plot.ly/plotly-latest.min.js) -  Dependency Management
+* [Jquery]("https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js) - Dependency Management
+* [Bootstrap](https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js/) - The web framework used
+
+
+
+
+
+
+
+
+
+
+# Demo
+<script async src="//jsfiddle.net/shubhamsondhi/rb6tgm84/1/embed/"></script>
 
 https://jsfiddle.net/shubhamsondhi/rb6tgm84/1/
-
-<script async src="//jsfiddle.net/shubhamsondhi/rb6tgm84/1/embed/"></script>
